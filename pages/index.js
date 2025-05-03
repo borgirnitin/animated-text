@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function AnimatedHero() {
   const titles = useMemo(() => ["PRODUCT", "UX / UI", "EXPERIENCE", "INDUSTRIAL"], []);
   const [index, setIndex] = useState(0);
-  const longest = "EXPERIENCE";
+  const longest = "EXPERIENCE"; // for consistent width
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -17,9 +17,6 @@ export default function AnimatedHero() {
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=General+Sans:wght@400;700&display=swap');
-        * {
-          box-sizing: border-box;
-        }
         body {
           margin: 0;
           font-family: 'General Sans', sans-serif;
@@ -55,11 +52,12 @@ export default function AnimatedHero() {
 
           <div
             style={{
-              position: "relative",
-              display: "inline-block",
-              width: `${longest.length + 1}ch`,
+              display: "inline-flex",
+              justifyContent: "center",
+              alignItems: "center",
+              minWidth: `${longest.length + 1}ch`,
               margin: "0 0.5rem",
-              height: "1em",
+              position: "relative",
             }}
           >
             <AnimatePresence mode="wait">
@@ -75,30 +73,17 @@ export default function AnimatedHero() {
                   damping: 18,
                 }}
                 style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  textAlign: "left",
-                  background: "linear-gradient(to bottom, #D4D8ED, #929ED1, #D4D8ED)",
+                  display: "inline-block",
+                  backgroundImage:
+                    "linear-gradient(to bottom, #D4D8ED, #929ED1 50%, #D4D8ED)",
+                  backgroundClip: "text",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
-                  whiteSpace: "nowrap",
                 }}
               >
                 {titles[index]}
               </motion.span>
             </AnimatePresence>
-
-            {/* Ghost span to hold layout */}
-            <span
-              style={{
-                visibility: "hidden",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {longest}
-            </span>
           </div>
 
           <span style={{ marginLeft: "0.5rem" }}>Designer</span>
