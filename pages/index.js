@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Home() {
-  const titles = useMemo(() => ["amazing", "new", "wonderful", "beautiful", "smart"], []);
+  const titles = useMemo(() => ["Product", "UX", "Experience", "Industrial"], []);
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
