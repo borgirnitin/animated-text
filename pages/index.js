@@ -46,7 +46,7 @@ export default function AnimatedHero() {
             display: "flex",
             flexWrap: "wrap",
             alignItems: "center",
-            fontWeight: normal,
+            fontWeight: "normal",
             letterSpacing: "0.1em",
             
             color: "#fff",
