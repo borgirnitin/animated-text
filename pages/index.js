@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function AnimatedHero() {
-  const titles = useMemo(() => ["PRODUCT", "UX", "EXPERIENCE", "INDUSTRIAL"], []);
+  const titles = useMemo(() => ["PRODUCT", "UX / UI", "EXPERIENCE", "INDUSTRIAL"], []);
   const [index, setIndex] = useState(0);
 
   // Get longest word for layout stability
@@ -43,7 +43,7 @@ export default function AnimatedHero() {
             fontSize: "2.5rem",
             fontWeight: 700,
             letterSpacing: "0.15em",
-            textTransform: "uppercase",
+          
             color: "#FFFFFF",
             display: "flex",
             alignItems: "center",
