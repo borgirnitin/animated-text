@@ -4,8 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function AnimatedHero() {
   const titles = useMemo(() => ["PRODUCT", "UX / UI", "EXPERIENCE", "INDUSTRIAL"], []);
   const [index, setIndex] = useState(0);
-
-  const longest = "EXPERIENCE"; // lock the width based on this word
+  const longest = "EXPERIENCE";
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -41,15 +40,15 @@ export default function AnimatedHero() {
         <div
           style={{
             display: "flex",
-            flexWrap: "wrap",
             alignItems: "center",
             fontFamily: "'General Sans', sans-serif",
             fontWeight: 700,
-            letterSpacing: "0.1em",
-            color: "#fff",
-            fontSize: "clamp(1.5rem, 4vw, 2.5rem)",
-            lineHeight: 1.2,
+            letterSpacing: "0.08em",
+            fontSize: "clamp(1.8rem, 6vw, 3rem)",
             textTransform: "uppercase",
+            color: "#ffffff",
+            lineHeight: 1.2,
+            whiteSpace: "nowrap",
           }}
         >
           <span style={{ marginRight: "0.5rem" }}>Hi, I'm Nitin 💫 I am</span>
@@ -57,9 +56,9 @@ export default function AnimatedHero() {
           <div
             style={{
               position: "relative",
-              minWidth: `${longest.length + 1}ch`, // force width based on longest word
-              margin: "0 0.5rem",
               display: "inline-block",
+              width: `${longest.length + 1}ch`,
+              margin: "0 0.5rem",
               height: "1em",
             }}
           >
@@ -77,20 +76,21 @@ export default function AnimatedHero() {
                 }}
                 style={{
                   position: "absolute",
+                  top: 0,
                   left: 0,
-                  right: 0,
+                  width: "100%",
                   textAlign: "left",
-                  whiteSpace: "nowrap",
-                  color: "transparent",
-                  background: "linear-gradient(90deg, #929ED1, #575866, #47484A)",
+                  background: "linear-gradient(to bottom, #D4D8ED, #929ED1, #D4D8ED)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
+                  whiteSpace: "nowrap",
                 }}
               >
                 {titles[index]}
               </motion.span>
             </AnimatePresence>
 
+            {/* Ghost span to hold layout */}
             <span
               style={{
                 visibility: "hidden",
