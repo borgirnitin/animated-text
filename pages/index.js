@@ -17,53 +17,39 @@ export default function AnimatedHero() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=General+Sans:wght@400;700&display=swap');
 
+        * {
+          box-sizing: border-box;
+        }
+
         body {
           margin: 0;
           font-family: 'General Sans', sans-serif;
           background-color: #0D0D0D;
         }
 
-        .glow-container {
-          background: rgba(255, 255, 255, 0.02);
-          border-radius: 9999px;
-          padding: 1em 1.5em;
-          position: relative;
+        .pill-wrapper {
           width: 15ch;
-          height: auto;
+          padding: 0.75em 1.25em;
+          border-radius: 9999px;
+          background: rgba(255, 255, 255, 0.04);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          box-shadow:
+            inset 0 1px 1px rgba(255, 255, 255, 0.08),
+            0 0 8px rgba(255, 255, 255, 0.06);
           display: flex;
-          align-items: center;
           justify-content: center;
-          backdrop-filter: blur(10px);
-          box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+          align-items: center;
+          border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        .glow-container::before {
-          content: "";
-          position: absolute;
-          inset: -2px;
-          z-index: -1;
-          border-radius: inherit;
-          background: linear-gradient(270deg, #d4d8ed, #929ed1, #d4d8ed);
-          background-size: 400% 400%;
-          animation: borderLoop 8s linear infinite;
-          filter: blur(3px);
-        }
-
-        @keyframes borderLoop {
-          0% {
-            background-position: 0% 50%;
-          }
-          100% {
-            background-position: 100% 50%;
-          }
-        }
-
-        .animated-text {
-          font-weight: 700;
-          font-size: clamp(1.5rem, 4vw, 2.5rem);
-          background-image: linear-gradient(to bottom, #D4D8ED, #929ED1 50%, #D4D8ED);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+        .text-animate {
+          z-index: 1;
+          font-weight: 600;
+          font-size: clamp(1.25rem, 3.5vw, 2rem);
+          color: white;
+          letter-spacing: 0.03em;
+          white-space: nowrap;
         }
       `}</style>
 
@@ -86,11 +72,13 @@ export default function AnimatedHero() {
             fontSize: "clamp(1.5rem, 4vw, 2.5rem)",
             letterSpacing: "0.05em",
             color: "#FFFFFF",
+            gap: "0.75rem",
+            flexWrap: "wrap",
           }}
         >
-          <span style={{ marginRight: "0.5rem" }}>Hi, I'm Nitin 💫 I am</span>
+          <span>Hi, I'm Nitin 💫 I am</span>
 
-          <div className="glow-container">
+          <div className="pill-wrapper">
             <AnimatePresence mode="wait">
               <motion.span
                 key={titles[index]}
@@ -103,14 +91,14 @@ export default function AnimatedHero() {
                   stiffness: 200,
                   damping: 18,
                 }}
-                className="animated-text"
+                className="text-animate"
               >
                 {titles[index]}
               </motion.span>
             </AnimatePresence>
           </div>
 
-          <span style={{ marginLeft: "0.5rem" }}>Designer</span>
+          <span>Designer</span>
         </div>
       </div>
     </>
