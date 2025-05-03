@@ -2,10 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function AnimatedHero() {
-  const titles = useMemo(() => ["PRODUCT", "UX / UI", "EXPERIENCE", "INDUSTRIAL"], []);
+  const titles = useMemo(() => ["a PRODUCT", "a UX / UI", "an EXPERIENCE", "an INDUSTRIAL"], []);
   const [index, setIndex] = useState(0);
-
-  const longest = "EXPERIENCE"; // For consistent pill size
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -33,37 +31,36 @@ export default function AnimatedHero() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          padding: "2rem",
           height: "100vh",
           width: "100%",
-          color: "#fff",
+          padding: "2rem",
         }}
       >
         <div
           style={{
             display: "flex",
-            flexWrap: "wrap",
             alignItems: "center",
             fontFamily: "'General Sans', sans-serif",
             fontWeight: 700,
-            letterSpacing: "0.05em",
             fontSize: "clamp(1.5rem, 4vw, 2.5rem)",
-            lineHeight: 1.2,
+            letterSpacing: "0.05em",
+            color: "#FFFFFF",
           }}
         >
           <span style={{ marginRight: "0.5rem" }}>Hi, I'm Nitin 💫 I am</span>
 
+          {/* FIXED-WIDTH pill */}
           <div
             style={{
               position: "relative",
-              minWidth: `${longest.length + 1}ch`,
-              margin: "0 0.5rem",
-              padding: "0.3em 1em",
-              backgroundColor: "#1a1a1a",
+              width: "12ch", // hardcoded for "EXPERIENCE" + padding
+              padding: "0.3em 1.2em",
               borderRadius: "9999px",
-              display: "inline-flex",
-              justifyContent: "center",
-              alignItems: "center",
+              backgroundColor: "#1A1A1A",
+              display: "block",
+              textAlign: "center",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
             }}
           >
             <AnimatePresence mode="wait">
@@ -79,30 +76,17 @@ export default function AnimatedHero() {
                   damping: 18,
                 }}
                 style={{
+                  display: "inline-block",
                   backgroundImage:
                     "linear-gradient(to bottom, #D4D8ED, #929ED1 50%, #D4D8ED)",
                   backgroundClip: "text",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
-                  whiteSpace: "nowrap",
                 }}
               >
                 {titles[index]}
               </motion.span>
             </AnimatePresence>
-
-            <span
-              aria-hidden="true"
-              style={{
-                visibility: "hidden",
-                height: 0,
-                overflow: "hidden",
-                whiteSpace: "nowrap",
-                position: "absolute",
-              }}
-            >
-              {longest}
-            </span>
           </div>
 
           <span style={{ marginLeft: "0.5rem" }}>Designer</span>
