@@ -37,7 +37,8 @@ export default function AnimatedHero() {
           textTransform: "uppercase",
         }}
       >
-        <span style={{ marginLeft: "0.5rem" }}>Designer</span>
+    
+        
         <AnimatePresence mode="wait">
           <motion.span
             key={titles[index]}
@@ -52,6 +53,7 @@ export default function AnimatedHero() {
             }}
             style={{
               display: "inline-block",
+              marginRight: "0.5rem",
               background: "linear-gradient(90deg, #F8D442, #FF6E7F)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
@@ -60,6 +62,8 @@ export default function AnimatedHero() {
             {titles[index]}
           </motion.span>
         </AnimatePresence>
+
+        <span>Designer</span>
       </div>
     </>
   );
