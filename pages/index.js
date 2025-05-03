@@ -5,10 +5,7 @@ export default function AnimatedHero() {
   const titles = useMemo(() => ["PRODUCT", "UX / UI", "EXPERIENCE", "INDUSTRIAL"], []);
   const [index, setIndex] = useState(0);
 
-  const longest = useMemo(
-    () => titles.reduce((a, b) => (a.length > b.length ? a : b), ""),
-    [titles]
-  );
+  const longest = "EXPERIENCE"; // lock the width based on this word
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -46,12 +43,13 @@ export default function AnimatedHero() {
             display: "flex",
             flexWrap: "wrap",
             alignItems: "center",
-            fontWeight: "normal",
+            fontFamily: "'General Sans', sans-serif",
+            fontWeight: 700,
             letterSpacing: "0.1em",
-            
             color: "#fff",
             fontSize: "clamp(1.5rem, 4vw, 2.5rem)",
             lineHeight: 1.2,
+            textTransform: "uppercase",
           }}
         >
           <span style={{ marginRight: "0.5rem" }}>Hi, I'm Nitin 💫 I am</span>
@@ -59,7 +57,7 @@ export default function AnimatedHero() {
           <div
             style={{
               position: "relative",
-              minWidth: "8ch", // responsive base width
+              minWidth: `${longest.length + 1}ch`, // force width based on longest word
               margin: "0 0.5rem",
               display: "inline-block",
               height: "1em",
@@ -84,7 +82,7 @@ export default function AnimatedHero() {
                   textAlign: "left",
                   whiteSpace: "nowrap",
                   color: "transparent",
-                  background: "linear-gradient(90deg, #F8D442, #FF6E7F)",
+                  background: "linear-gradient(90deg, #929ED1, #575866, #47484A)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}
@@ -93,7 +91,14 @@ export default function AnimatedHero() {
               </motion.span>
             </AnimatePresence>
 
-            <span style={{ visibility: "hidden", whiteSpace: "nowrap" }}>{longest}</span>
+            <span
+              style={{
+                visibility: "hidden",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {longest}
+            </span>
           </div>
 
           <span style={{ marginLeft: "0.5rem" }}>Designer</span>
