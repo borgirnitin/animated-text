@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Home() {
-  const titles = useMemo(() => ["Product", "UX", "Experience", "Industrial"], []);
+  const titles = useMemo(() => ["PRODUCT", "UX", "EXPERIENCE", "INDUSTRIAL"], []);
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -20,6 +20,8 @@ export default function Home() {
       height: "100vh",
       backgroundColor: "#0D0D0D",
       color: "#fff",
+      font: "Space Grotesk",
+    
       fontSize: "2rem",
       fontWeight: "bold",
     }}>
