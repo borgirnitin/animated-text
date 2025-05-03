@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function AnimatedHero() {
-  const titles = useMemo(() => ["a PRODUCT", "a UX / UI", "an EXPERIENCE", "an INDUSTRIAL"], []);
+  const titles = useMemo(() => ["PRODUCT", "UX / UI", "EXPERIENCE", "INDUSTRIAL"], []);
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -53,7 +53,7 @@ export default function AnimatedHero() {
           <div
             style={{
               position: "relative",
-              width: "20ch", // hardcoded for "EXPERIENCE" + padding
+              width: "12ch", // hardcoded for "EXPERIENCE" + padding
               padding: "0.3em 1.2em",
               borderRadius: "9999px",
               backgroundColor: "#1A1A1A",
