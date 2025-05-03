@@ -4,7 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function AnimatedHero() {
   const titles = useMemo(() => ["PRODUCT", "UX / UI", "EXPERIENCE", "INDUSTRIAL"], []);
   const [index, setIndex] = useState(0);
-  const longest = "EXPERIENCE"; // for consistent width
+
+  const longest = "EXPERIENCE"; // For consistent pill size
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -17,6 +18,9 @@ export default function AnimatedHero() {
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=General+Sans:wght@400;700&display=swap');
+        * {
+          box-sizing: border-box;
+        }
         body {
           margin: 0;
           font-family: 'General Sans', sans-serif;
@@ -32,32 +36,34 @@ export default function AnimatedHero() {
           padding: "2rem",
           height: "100vh",
           width: "100%",
+          color: "#fff",
         }}
       >
         <div
           style={{
             display: "flex",
+            flexWrap: "wrap",
             alignItems: "center",
             fontFamily: "'General Sans', sans-serif",
             fontWeight: 700,
-            letterSpacing: "0.08em",
-            fontSize: "clamp(1.8rem, 6vw, 3rem)",
-          
-            color: "#ffffff",
+            letterSpacing: "0.05em",
+            fontSize: "clamp(1.5rem, 4vw, 2.5rem)",
             lineHeight: 1.2,
-            whiteSpace: "nowrap",
           }}
         >
           <span style={{ marginRight: "0.5rem" }}>Hi, I'm Nitin 💫 I am</span>
 
           <div
             style={{
+              position: "relative",
+              minWidth: `${longest.length + 1}ch`,
+              margin: "0 0.5rem",
+              padding: "0.3em 1em",
+              backgroundColor: "#1a1a1a",
+              borderRadius: "9999px",
               display: "inline-flex",
               justifyContent: "center",
               alignItems: "center",
-              minWidth: `${longest.length + 1}ch`,
-              margin: "0 0.5rem",
-              position: "relative",
             }}
           >
             <AnimatePresence mode="wait">
@@ -73,17 +79,30 @@ export default function AnimatedHero() {
                   damping: 18,
                 }}
                 style={{
-                  display: "inline-block",
                   backgroundImage:
                     "linear-gradient(to bottom, #D4D8ED, #929ED1 50%, #D4D8ED)",
                   backgroundClip: "text",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
+                  whiteSpace: "nowrap",
                 }}
               >
                 {titles[index]}
               </motion.span>
             </AnimatePresence>
+
+            <span
+              aria-hidden="true"
+              style={{
+                visibility: "hidden",
+                height: 0,
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                position: "absolute",
+              }}
+            >
+              {longest}
+            </span>
           </div>
 
           <span style={{ marginLeft: "0.5rem" }}>Designer</span>
