@@ -2,10 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function AnimatedHero() {
-  const titles = useMemo(() => ["PRODUCT", "UX / UI", "EXPERIENCE", "INDUSTRIAL"], []);
+  const titles = useMemo(() => ["PRODUCT", "UX", "EXPERIENCE", "INDUSTRIAL"], []);
   const [index, setIndex] = useState(0);
 
-  // Get longest word for layout stability
   const longest = useMemo(
     () => titles.reduce((a, b) => (a.length > b.length ? a : b), ""),
     [titles]
@@ -20,11 +19,15 @@ export default function AnimatedHero() {
 
   return (
     <>
-      {/* Import General Sans font */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=General+Sans:wght@400;700&display=swap');
+        * {
+          box-sizing: border-box;
+        }
         body {
+          margin: 0;
           font-family: 'General Sans', sans-serif;
+          background-color: #0D0D0D;
         }
       `}</style>
 
@@ -33,31 +36,33 @@ export default function AnimatedHero() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          padding: "2rem",
           height: "100vh",
-          backgroundColor: "#0D0D0D",
+          width: "100%",
         }}
       >
         <div
           style={{
-            fontFamily: "'General Sans', sans-serif",
-            fontSize: "2.5rem",
-            fontWeight: 700,
-            letterSpacing: "0.15em",
-          
-            color: "#FFFFFF",
             display: "flex",
+            flexWrap: "wrap",
             alignItems: "center",
+            fontWeight: 700,
+            letterSpacing: "0.1em",
+            textTransform: "uppercase",
+            color: "#fff",
+            fontSize: "clamp(1.5rem, 4vw, 2.5rem)",
+            lineHeight: 1.2,
           }}
         >
           <span style={{ marginRight: "0.5rem" }}>Hi, I'm Nitin 💫 I am</span>
 
-          {/* Container to stabilize animation area width */}
           <div
             style={{
-              width: `${longest.length}ch`, // Reserve enough space for the longest word
               position: "relative",
-              textAlign: "center",
+              minWidth: "8ch", // responsive base width
               margin: "0 0.5rem",
+              display: "inline-block",
+              height: "1em",
             }}
           >
             <AnimatePresence mode="wait">
@@ -76,22 +81,22 @@ export default function AnimatedHero() {
                   position: "absolute",
                   left: 0,
                   right: 0,
+                  textAlign: "left",
+                  whiteSpace: "nowrap",
                   color: "transparent",
                   background: "linear-gradient(90deg, #F8D442, #FF6E7F)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
-                  whiteSpace: "nowrap",
                 }}
               >
                 {titles[index]}
               </motion.span>
             </AnimatePresence>
 
-            {/* Ghost element to prevent layout shift */}
-            <span style={{ visibility: "hidden" }}>{longest}</span>
+            <span style={{ visibility: "hidden", whiteSpace: "nowrap" }}>{longest}</span>
           </div>
 
-          <span>Designer</span>
+          <span style={{ marginLeft: "0.5rem" }}>Designer</span>
         </div>
       </div>
     </>
