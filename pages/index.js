@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function Home() {
+export default function AnimatedHero() {
   const titles = useMemo(() => ["PRODUCT", "UX", "EXPERIENCE", "INDUSTRIAL"], []);
   const [index, setIndex] = useState(0);
 
@@ -13,31 +13,54 @@ export default function Home() {
   }, [titles.length]);
 
   return (
-    <div style={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      height: "100vh",
-      backgroundColor: "#0D0D0D",
-      color: "#fff",
-      font: "Space Grotesk",
-    
-      fontSize: "2rem",
-      fontWeight: "bold",
-    }}>
-      <span>You are&nbsp;</span>
-      <AnimatePresence mode="wait">
-        <motion.span
-          key={titles[index]}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.5 }}
-          style={{ display: "inline-block" }}
-        >
-          {titles[index]}
-        </motion.span>
-      </AnimatePresence>
-    </div>
+    <>
+      {/* Inject General Sans font */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=General+Sans:wght@400;700&display=swap');
+        body {
+          font-family: 'General Sans', sans-serif;
+        }
+      `}</style>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          backgroundColor: "#0D0D0D",
+          color: "#FFFFFF",
+          fontFamily: "'General Sans', sans-serif",
+          fontSize: "2.5rem",
+          fontWeight: 700,
+          letterSpacing: "0.15em",
+          textTransform: "uppercase",
+        }}
+      >
+        <span style={{ marginRight: "0.5rem" }}>You are</span>
+        <AnimatePresence mode="wait">
+          <motion.span
+            key={titles[index]}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{
+              duration: 0.6,
+              type: "spring",
+              stiffness: 200,
+              damping: 18,
+            }}
+            style={{
+              display: "inline-block",
+              background: "linear-gradient(90deg, #F8D442, #FF6E7F)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            {titles[index]}
+          </motion.span>
+        </AnimatePresence>
+      </div>
+    </>
   );
 }
