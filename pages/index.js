@@ -31,7 +31,7 @@ export default function AnimatedHero() {
           width: 15ch;
           padding: 0.75em 1.25em;
           border-radius: 9999px;
-          background: rgba(235, 225, 215, 0.1);
+          background: rgba(87, 153, 204, 0.09);
           backdrop-filter: blur(8px);
           -webkit-backdrop-filter: blur(20px);
           box-shadow:
