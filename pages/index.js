@@ -37,7 +37,7 @@ export default function AnimatedHero() {
           textTransform: "uppercase",
         }}
       >
-        <span style={{ marginRight: "0.5rem" }}>You are</span>
+        <span style={{ marginLeft: "0.5rem" }}>Designer</span>
         <AnimatePresence mode="wait">
           <motion.span
             key={titles[index]}
