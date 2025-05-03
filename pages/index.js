@@ -16,6 +16,7 @@ export default function AnimatedHero() {
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=General+Sans:wght@400;700&display=swap');
+
         * {
           box-sizing: border-box;
         }
@@ -23,6 +24,52 @@ export default function AnimatedHero() {
           margin: 0;
           font-family: 'General Sans', sans-serif;
           background-color: #0D0D0D;
+        }
+
+        .glass-pill {
+          position: relative;
+          width: 15ch;
+          padding: 1em 1em;
+          border-radius: 9999px;
+          background: rgba(255, 255, 255, 0.05);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+          white-space: nowrap;
+          box-shadow:
+            0 0 10px rgba(255, 255, 255, 0.05),
+            0 0 20px rgba(146, 158, 209, 0.1),
+            0 0 30px rgba(146, 158, 209, 0.05);
+        }
+
+        .glass-pill::before {
+          content: "";
+          position: absolute;
+          inset: -2px;
+          z-index: -1;
+          border-radius: inherit;
+          background: linear-gradient(120deg, #D4D8ED, #929ED1, #D4D8ED);
+          background-size: 300% 300%;
+          animation: borderFlow 4s linear infinite;
+          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          mask-composite: exclude;
+          -webkit-mask-composite: destination-out;
+          padding: 2px;
+        }
+
+        @keyframes borderFlow {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
         }
       `}</style>
 
@@ -49,20 +96,8 @@ export default function AnimatedHero() {
         >
           <span style={{ marginRight: "0.5rem" }}>Hi, I'm Nitin 💫 I am</span>
 
-          {/* FIXED-WIDTH pill */}
-          <div
-            style={{
-              position: "relative",
-              width: "15ch", // hardcoded for "EXPERIENCE" + padding
-              padding: "1em 1em",
-              borderRadius: "9999px",
-              backgroundColor: "#1A1A1A",
-              display: "block",
-              textAlign: "center",
-              overflow: "hidden",
-              whiteSpace: "nowrap",
-            }}
-          >
+          {/* Enhanced pill with animated border and glow */}
+          <div className="glass-pill">
             <AnimatePresence mode="wait">
               <motion.span
                 key={titles[index]}
