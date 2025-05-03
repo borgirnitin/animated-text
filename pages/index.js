@@ -17,59 +17,53 @@ export default function AnimatedHero() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=General+Sans:wght@400;700&display=swap');
 
-        * {
-          box-sizing: border-box;
-        }
         body {
           margin: 0;
           font-family: 'General Sans', sans-serif;
           background-color: #0D0D0D;
         }
 
-        .glass-pill {
+        .glow-container {
+          background: rgba(255, 255, 255, 0.02);
+          border-radius: 9999px;
+          padding: 1em 1.5em;
           position: relative;
           width: 15ch;
-          padding: .5em 1em;
-          border-radius: 9999px;
-          background: rgba(255, 255, 255, 0.05);
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
+          height: auto;
           display: flex;
           align-items: center;
           justify-content: center;
-          overflow: hidden;
-          white-space: nowrap;
-          box-shadow:
-            0 0 10px rgba(255, 255, 255, 0.05),
-            0 0 20px rgba(146, 158, 209, 0.1),
-            0 0 30px rgba(146, 158, 209, 0.05);
+          backdrop-filter: blur(10px);
+          box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
         }
 
-        .glass-pill::before {
+        .glow-container::before {
           content: "";
           position: absolute;
           inset: -2px;
           z-index: -1;
           border-radius: inherit;
-          background: linear-gradient(120deg, #D4D8ED, #929ED1, #D4D8ED);
-          background-size: 300% 300%;
-          animation: borderFlow 4s linear infinite;
-          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-          mask-composite: exclude;
-          -webkit-mask-composite: destination-out;
-          padding: 2px;
+          background: linear-gradient(270deg, #d4d8ed, #929ed1, #d4d8ed);
+          background-size: 400% 400%;
+          animation: borderLoop 8s linear infinite;
+          filter: blur(3px);
         }
 
-        @keyframes borderFlow {
+        @keyframes borderLoop {
           0% {
             background-position: 0% 50%;
           }
-          50% {
+          100% {
             background-position: 100% 50%;
           }
-          100% {
-            background-position: 0% 50%;
-          }
+        }
+
+        .animated-text {
+          font-weight: 700;
+          font-size: clamp(1.5rem, 4vw, 2.5rem);
+          background-image: linear-gradient(to bottom, #D4D8ED, #929ED1 50%, #D4D8ED);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
         }
       `}</style>
 
@@ -96,8 +90,7 @@ export default function AnimatedHero() {
         >
           <span style={{ marginRight: "0.5rem" }}>Hi, I'm Nitin 💫 I am</span>
 
-          {/* Enhanced pill with animated border and glow */}
-          <div className="glass-pill">
+          <div className="glow-container">
             <AnimatePresence mode="wait">
               <motion.span
                 key={titles[index]}
@@ -110,14 +103,7 @@ export default function AnimatedHero() {
                   stiffness: 200,
                   damping: 18,
                 }}
-                style={{
-                  display: "inline-block",
-                  backgroundImage:
-                    "linear-gradient(to bottom, #D4D8ED, #929ED1 50%, #D4D8ED)",
-                  backgroundClip: "text",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                }}
+                className="animated-text"
               >
                 {titles[index]}
               </motion.span>
