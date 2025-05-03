@@ -53,8 +53,8 @@ export default function AnimatedHero() {
           <div
             style={{
               position: "relative",
-              width: "12ch", // hardcoded for "EXPERIENCE" + padding
-              padding: "0.3em 1.2em",
+              width: "15ch", // hardcoded for "EXPERIENCE" + padding
+              padding: "1em 1em",
               borderRadius: "9999px",
               backgroundColor: "#1A1A1A",
               display: "block",
