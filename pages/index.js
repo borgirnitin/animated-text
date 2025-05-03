@@ -42,7 +42,7 @@ export default function AnimatedHero() {
             fontWeight: 700,
             letterSpacing: "0.08em",
             fontSize: "clamp(1.8rem, 6vw, 3rem)",
-            textTransform: "uppercase",
+          
             color: "#ffffff",
             lineHeight: 1.2,
             whiteSpace: "nowrap",
