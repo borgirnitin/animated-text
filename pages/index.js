@@ -28,12 +28,13 @@ export default function AnimatedHero() {
         }
 
         .pill-wrapper {
+          position: relative;
           width: 15ch;
           padding: 0.75em 1.25em;
           border-radius: 9999px;
-          background: rgba(87, 153, 204, 0.09);
+          background: rgba(87, 153, 204, 0.05);
           backdrop-filter: blur(8px);
-          -webkit-backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(8px);
           box-shadow:
             inset 0 1px 1px rgba(255, 255, 255, 0.08),
             0 0 8px rgba(255, 255, 255, 0.06);
@@ -41,10 +42,45 @@ export default function AnimatedHero() {
           justify-content: center;
           align-items: center;
           border: 1px solid rgba(255, 255, 255, 0.08);
+          overflow: hidden;
+        }
+
+        .pill-glow {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          pointer-events: none;
+        }
+
+        .orbit {
+          width: 100%;
+          height: 100%;
+          border-radius: 9999px;
+          position: relative;
+          animation: rotate 4s linear infinite;
+        }
+
+        .glow-dot {
+          width: 6px;
+          height: 6px;
+          background: #8aaaff;
+          border-radius: 50%;
+          box-shadow: 0 0 10px 5px rgba(138, 170, 255, 0.4);
+          position: absolute;
+          top: -3px;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+
+        @keyframes rotate {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
         }
 
         .text-animate {
-          z-index: 1;
+          z-index: 2;
           font-weight: 600;
           font-size: clamp(1.25rem, 3.5vw, 2rem);
           color: white;
@@ -79,6 +115,11 @@ export default function AnimatedHero() {
           <span>Hi, I'm Nitin 💫 I am</span>
 
           <div className="pill-wrapper">
+            <div className="pill-glow">
+              <div className="orbit">
+                <div className="glow-dot" />
+              </div>
+            </div>
             <AnimatePresence mode="wait">
               <motion.span
                 key={titles[index]}
