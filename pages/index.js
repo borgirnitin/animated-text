@@ -29,7 +29,7 @@ export default function AnimatedHero() {
         .glass-pill {
           position: relative;
           width: 15ch;
-          padding: 1em 1em;
+          padding: .5em 1em;
           border-radius: 9999px;
           background: rgba(255, 255, 255, 0.05);
           backdrop-filter: blur(10px);
