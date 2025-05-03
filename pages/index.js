@@ -29,8 +29,8 @@ export default function AnimatedHero() {
 
         .pill-wrapper {
           position: relative;
-          width: 15ch;
-          padding: 0.75em 1.25em;
+          width: 13ch;
+          padding: 0.5em 1em;
           border-radius: 9999px;
           background: rgba(87, 153, 204, 0.05);
           backdrop-filter: blur(8px);
