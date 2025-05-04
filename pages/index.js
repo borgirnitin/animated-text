@@ -29,7 +29,7 @@ export default function AnimatedHero() {
 
         .pill-wrapper {
           position: relative;
-          width: 15ch;
+          width: 13ch;
           height: 3.5rem;
           padding: 0 1.25rem;
           border-radius: 9999px;
@@ -68,7 +68,7 @@ export default function AnimatedHero() {
         }
 
         .moving-dot {
-          fill: #A2B7FF;
+          fill: #f6f6f6;
           filter: drop-shadow(0 0 6px #a2b7ff88);
         }
 
