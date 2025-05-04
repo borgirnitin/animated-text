@@ -16,7 +16,10 @@ export default function AnimatedHero() {
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=General+Sans:wght@400;700&display=swap');
-        * { box-sizing: border-box; }
+
+        * {
+          box-sizing: border-box;
+        }
 
         body {
           margin: 0;
@@ -24,14 +27,9 @@ export default function AnimatedHero() {
           background-color: #0D0D0D;
         }
 
-        .orbiter-dot {
-          r: 4;
-          fill: #A2B7FF;
-          filter: drop-shadow(0 0 6px #A2B7FF) drop-shadow(0 0 12px #A2B7FF99);
-        }
         .pill-wrapper {
           position: relative;
-          width: 12ch;
+          width: 15ch;
           height: 3.5rem;
           padding: 0 1.25rem;
           border-radius: 9999px;
@@ -59,15 +57,27 @@ export default function AnimatedHero() {
           z-index: 2;
         }
 
-
         .pill-svg {
           position: absolute;
           top: 0;
           left: 0;
           width: 100%;
           height: 100%;
-          z-index: 1;
+          z-index: 2; /* Front */
           pointer-events: none;
+        }
+
+        .glow-dot {
+          r: 2;
+          fill: #A2B7FF;
+          filter: drop-shadow(0 0 6px #A2B7FF) drop-shadow(0 0 12px #A2B7FF88);
+        }
+
+        .trail {
+          r: 1.5;
+          fill: #A2B7FF;
+          opacity: 0.3;
+          filter: blur(1px);
         }
       `}</style>
 
@@ -106,22 +116,43 @@ export default function AnimatedHero() {
             </motion.span>
           </AnimatePresence>
 
-          {/* Orbital dot path SVG */}
+          {/* Animated SVG Trail + Dot */}
           <svg className="pill-svg" viewBox="0 0 300 56" preserveAspectRatio="none">
-            <path
-              id="orbitalPath"
-              d="M 28,1
-                 H 272
-                 A 27,27 0 0 1 299,28
-                 A 27,27 0 0 1 272,55
-                 H 28
-                 A 27,27 0 0 1 1,28
-                 A 27,27 0 0 1 28,1 Z"
-              fill="none"
-            />
-            <circle className="orbiter-dot">
+            <defs>
+              <path
+                id="trailPath"
+                d="
+                  M 28,1
+                  H 272
+                  A 27,27 0 0 1 299,28
+                  A 27,27 0 0 1 272,55
+                  H 28
+                  A 27,27 0 0 1 1,28
+                  A 27,27 0 0 1 28,1 Z
+                "
+              />
+            </defs>
+
+            {/* Trailing clones */}
+            {[0.02, 0.04, 0.06, 0.08].map((offset, i) => (
+              <circle className="trail" key={i}>
+                <animateMotion
+                  dur="4s"
+                  repeatCount="indefinite"
+                  keyPoints="0;1"
+                  keyTimes="0;1"
+                  calcMode="linear"
+                  begin={`${i * 0.1}s`}
+                >
+                  <mpath href="#trailPath" />
+                </animateMotion>
+              </circle>
+            ))}
+
+            {/* Lead glow dot */}
+            <circle className="glow-dot">
               <animateMotion dur="4s" repeatCount="indefinite" rotate="auto">
-                <mpath href="#orbitalPath" />
+                <mpath href="#trailPath" />
               </animateMotion>
             </circle>
           </svg>
