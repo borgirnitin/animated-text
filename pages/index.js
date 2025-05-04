@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function AnimatedHero() {
   const titles = useMemo(() => ["PRODUCT", "UX / UI", "EXPERIENCE", "INDUSTRIAL"], []);
   const [index, setIndex] = useState(0);
+  const [angle, setAngle] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -12,18 +13,35 @@ export default function AnimatedHero() {
     return () => clearInterval(interval);
   }, [titles.length]);
 
+  // Animate dot manually
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAngle((prev) => (prev + 1) % 360);
+    }, 10); // adjust speed
+    return () => clearInterval(interval);
+  }, []);
+
+  // Calculate dot position
+  const radiusX = 135; // horizontal pill radius (half of pill width - padding)
+  const radiusY = 28;  // vertical pill radius (half height)
+  const centerX = radiusX + 20; // offset for pill position
+  const centerY = radiusY + 10;
+
+  const rad = (angle * Math.PI) / 180;
+  const x = centerX + radiusX * Math.cos(rad);
+  const y = centerY + radiusY * Math.sin(rad);
+
   return (
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=General+Sans:wght@400;700&display=swap');
-
         * {
           box-sizing: border-box;
         }
         body {
           margin: 0;
           font-family: 'General Sans', sans-serif;
-          background-color: #0D0D0D;
+          background-color: #050505;
         }
 
         .pill-wrapper {
@@ -33,12 +51,11 @@ export default function AnimatedHero() {
           padding: 0 1.25rem;
           border-radius: 9999px;
           background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(255, 255, 255, 0.08);
           backdrop-filter: blur(8px);
           -webkit-backdrop-filter: blur(8px);
-          box-shadow:
-            inset 0 1px 1px rgba(255, 255, 255, 0.08),
-            0 0 8px rgba(255, 255, 255, 0.06);
+          border: 1px solid rgba(255,255,255,0.08);
+          box-shadow: inset 0 1px 1px rgba(255,255,255,0.08),
+                      0 0 6px rgba(255,255,255,0.06);
           display: flex;
           justify-content: center;
           align-items: center;
@@ -56,38 +73,18 @@ export default function AnimatedHero() {
           z-index: 2;
         }
 
-        .border-svg {
+        .glow-dot {
           position: absolute;
-          top: 0;
-          left: 0;
-          width: 300px;
-          height: 56px;
-          z-index: 5;
-          overflow: visible;
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: #a2b7ff;
+          box-shadow:
+            0 0 6px #a2b7ff,
+            0 0 12px #a2b7ff99,
+            0 0 16px #a2b7ff44;
           pointer-events: none;
-        }
-
-        .trail-path {
-          stroke: #a2b7ff44;
-          stroke-width: 1;
-          stroke-linecap: round;
-          stroke-dasharray: 24;
-          stroke-dashoffset: 0;
-          fill: none;
-          animation: dashMove 3s linear infinite;
-          filter: drop-shadow(0 0 6px #a2b7ff55);
-        }
-
-        @keyframes dashMove {
-          to {
-            stroke-dashoffset: -100;
-          }
-        }
-
-        .dot {
-          r: 3;
-          fill: #a2b7ff;
-          filter: drop-shadow(0 0 6px #a2b7ff99);
+          z-index: 10;
         }
       `}</style>
 
@@ -126,31 +123,15 @@ export default function AnimatedHero() {
             </motion.span>
           </AnimatePresence>
 
-          {/* SVG border animation */}
-          <svg className="border-svg" viewBox="0 0 300 56">
-            {/* Trail */}
-            <path
-              className="trail-path"
-              d="M 28,0 H 272 A 28,28 0 0 1 300,28 A 28,28 0 0 1 272,56 H 28 A 28,28 0 0 1 0,28 A 28,28 0 0 1 28,0 Z"
-            />
-
-            {/* Moving Dot */}
-            <circle className="dot">
-              <animateMotion
-                dur="3s"
-                repeatCount="indefinite"
-                rotate="auto"
-              >
-                <mpath xlinkHref="#path" />
-              </animateMotion>
-            </circle>
-
-            <path
-              id="path"
-              d="M 28,0 H 272 A 28,28 0 0 1 300,28 A 28,28 0 0 1 272,56 H 28 A 28,28 0 0 1 0,28 A 28,28 0 0 1 28,0 Z"
-              fill="none"
-            />
-          </svg>
+          {/* Moving dot via JS */}
+          <div
+            className="glow-dot"
+            style={{
+              top: `${y}px`,
+              left: `${x}px`,
+              transform: "translate(-50%, -50%)",
+            }}
+          />
         </div>
 
         <span>Designer</span>
