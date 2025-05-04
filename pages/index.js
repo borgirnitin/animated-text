@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function AnimatedHero() {
   const titles = useMemo(() => ["PRODUCT", "UX / UI", "EXPERIENCE", "INDUSTRIAL"], []);
   const [index, setIndex] = useState(0);
-  const [angle, setAngle] = useState(0);
+  const dotRef = useRef();
+  const pathRef = useRef();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -13,31 +14,28 @@ export default function AnimatedHero() {
     return () => clearInterval(interval);
   }, [titles.length]);
 
-  // Animate dot manually
+  // Animate dot along SVG path
   useEffect(() => {
-    const interval = setInterval(() => {
-      setAngle((prev) => (prev + 1) % 360);
-    }, 10); // adjust speed
-    return () => clearInterval(interval);
+    let progress = 0;
+    const speed = 0.002; // control speed
+    const dot = dotRef.current;
+    const path = pathRef.current;
+    const length = path.getTotalLength();
+
+    const animate = () => {
+      const point = path.getPointAtLength(progress * length);
+      dot.style.transform = `translate(${point.x}px, ${point.y}px)`;
+      progress = (progress + speed) % 1;
+      requestAnimationFrame(animate);
+    };
+    requestAnimationFrame(animate);
   }, []);
-
-  // Calculate dot position
-  const radiusX = 135; // horizontal pill radius (half of pill width - padding)
-  const radiusY = 28;  // vertical pill radius (half height)
-  const centerX = radiusX + 20; // offset for pill position
-  const centerY = radiusY + 10;
-
-  const rad = (angle * Math.PI) / 180;
-  const x = centerX + radiusX * Math.cos(rad);
-  const y = centerY + radiusY * Math.sin(rad);
 
   return (
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=General+Sans:wght@400;700&display=swap');
-        * {
-          box-sizing: border-box;
-        }
+
         body {
           margin: 0;
           font-family: 'General Sans', sans-serif;
@@ -73,18 +71,27 @@ export default function AnimatedHero() {
           z-index: 2;
         }
 
-        .glow-dot {
+        .pill-svg {
           position: absolute;
-          width: 8px;
-          height: 8px;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          pointer-events: none;
+          z-index: 1;
+        }
+
+        .moving-dot {
+          position: absolute;
+          width: 6px;
+          height: 6px;
           border-radius: 50%;
           background: #a2b7ff;
           box-shadow:
-            0 0 6px #a2b7ff,
-            0 0 12px #a2b7ff99,
-            0 0 16px #a2b7ff44;
-          pointer-events: none;
-          z-index: 10;
+            0 0 4px #a2b7ff,
+            0 0 8px #a2b7ff66,
+            0 0 12px #a2b7ff44;
+          z-index: 3;
         }
       `}</style>
 
@@ -123,15 +130,26 @@ export default function AnimatedHero() {
             </motion.span>
           </AnimatePresence>
 
-          {/* Moving dot via JS */}
-          <div
-            className="glow-dot"
-            style={{
-              top: `${y}px`,
-              left: `${x}px`,
-              transform: "translate(-50%, -50%)",
-            }}
-          />
+          {/* SVG Path matching pill shape */}
+          <svg className="pill-svg" viewBox="0 0 300 56" preserveAspectRatio="none">
+            <path
+              ref={pathRef}
+              d="
+                M 28,0
+                H 272
+                A 28,28 0 0 1 300,28
+                A 28,28 0 0 1 272,56
+                H 28
+                A 28,28 0 0 1 0,28
+                A 28,28 0 0 1 28,0 Z
+              "
+              fill="none"
+              stroke="transparent"
+            />
+          </svg>
+
+          {/* Glowing Dot */}
+          <div ref={dotRef} className="moving-dot" />
         </div>
 
         <span>Designer</span>
