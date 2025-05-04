@@ -4,23 +4,34 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function AnimatedHero() {
   const titles = useMemo(() => ["PRODUCT", "UX / UI", "EXPERIENCE", "INDUSTRIAL"], []);
   const [index, setIndex] = useState(0);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const titleInterval = setInterval(() => {
       setIndex((prev) => (prev + 1) % titles.length);
     }, 2000);
-    return () => clearInterval(interval);
+    return () => clearInterval(titleInterval);
   }, [titles.length]);
+
+  // Animate trail dot along border
+  useEffect(() => {
+    let frame = 0;
+    const animate = () => {
+      setProgress((prev) => (prev + 1) % 1000);
+      frame = requestAnimationFrame(animate);
+    };
+    frame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  const dashOffset = 1000 - progress;
 
   return (
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=General+Sans:wght@400;700&display=swap');
 
-        * {
-          box-sizing: border-box;
-        }
-
+        * { box-sizing: border-box; }
         body {
           margin: 0;
           font-family: 'General Sans', sans-serif;
@@ -31,24 +42,22 @@ export default function AnimatedHero() {
           position: relative;
           width: 13ch;
           height: 3.5rem;
-          padding: 0 1.25rem;
           border-radius: 9999px;
-          background: rgba(255, 255, 255, 0.04);
-          backdrop-filter: blur(8px);
-          -webkit-backdrop-filter: blur(8px);
-          border: 1px solid rgba(255,255,255,0.08);
-          box-shadow:
-            inset 0 1px 1px rgba(255, 255, 255, 0.08),
-            0 0 8px rgba(255, 255, 255, 0.06);
           display: flex;
           justify-content: center;
           align-items: center;
-          overflow: visible;
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          box-shadow:
+            inset 0 1px 1px rgba(255, 255, 255, 0.08),
+            0 0 8px rgba(255, 255, 255, 0.06);
         }
 
         .animated-text {
           font-weight: 600;
-          font-size: clamp(1.25rem, 3vw, 1.75rem);
+          font-size: 1.5rem;
           letter-spacing: 0.03em;
           background: linear-gradient(to bottom, #D4D8ED, #929ED1, #D4D8ED);
           -webkit-background-clip: text;
@@ -57,45 +66,30 @@ export default function AnimatedHero() {
           z-index: 2;
         }
 
-        .pill-svg {
+        .border-svg {
           position: absolute;
           top: 0;
           left: 0;
           width: 100%;
           height: 100%;
-          overflow: visible;
           z-index: 3;
+          overflow: visible;
+          pointer-events: none;
         }
 
-        .moving-dot {
-          fill: #f6f6f6;
-          filter: drop-shadow(0 0 6px #a2b7ff88);
-        }
-
-        .border-path {
-          stroke: transparent;
+        .trail-path {
+          stroke: #a2b7ff88;
+          stroke-width: 2;
+          stroke-linecap: round;
+          stroke-dasharray: 1000;
           fill: none;
+          filter: drop-shadow(0 0 4px #a2b7ffcc);
         }
 
-        @keyframes moveAlong {
-          0% {
-            offset-distance: 0%;
-          }
-          100% {
-            offset-distance: 100%;
-          }
-        }
-
-        .dot-on-path {
-          offset-path: path("M 28,0 H 272 A 28,28 0 0 1 300,28 A 28,28 0 0 1 272,56 H 28 A 28,28 0 0 1 0,28 A 28,28 0 0 1 28,0 Z");
-          offset-rotate: 0deg;
-          animation: moveAlong 4s linear infinite;
-          position: absolute;
-          width: 6px;
-          height: 6px;
-          border-radius: 50%;
-          background: #a2b7ff;
-          box-shadow: 0 0 12px #a2b7ff88;
+        .glow-dot {
+          r: 4;
+          fill: #a2b7ff;
+          filter: drop-shadow(0 0 6px #a2b7ff88);
         }
       `}</style>
 
@@ -104,7 +98,6 @@ export default function AnimatedHero() {
         justifyContent: "center",
         alignItems: "center",
         height: "100vh",
-        width: "100%",
         padding: "2rem",
         fontFamily: "'General Sans', sans-serif",
         fontWeight: 700,
@@ -116,7 +109,6 @@ export default function AnimatedHero() {
         <span>Hi, I'm Nitin 💫 I am</span>
 
         <div className="pill-wrapper">
-          {/* Text Animation */}
           <AnimatePresence mode="wait">
             <motion.span
               key={titles[index]}
@@ -135,23 +127,28 @@ export default function AnimatedHero() {
             </motion.span>
           </AnimatePresence>
 
-          {/* Moving Glow Dot */}
-          <div className="dot-on-path" />
-
-          {/* Hidden SVG Path (for border reference) */}
-          <svg className="pill-svg" viewBox="0 0 300 56" preserveAspectRatio="none">
+          <svg className="border-svg" viewBox="0 0 300 56" preserveAspectRatio="none">
             <path
-              className="border-path"
-              d="
-                M 28,0
-                H 272
-                A 28,28 0 0 1 300,28
-                A 28,28 0 0 1 272,56
-                H 28
-                A 28,28 0 0 1 0,28
-                A 28,28 0 0 1 28,0 Z
-              "
+              d="M 28,0 H 272 A 28,28 0 0 1 300,28 A 28,28 0 0 1 272,56 H 28 A 28,28 0 0 1 0,28 A 28,28 0 0 1 28,0 Z"
+              className="trail-path"
+              strokeDashoffset={dashOffset}
             />
+            <circle
+              className="glow-dot"
+              r="3"
+            >
+              <animateMotion
+                dur="4s"
+                repeatCount="indefinite"
+                rotate="auto"
+              >
+                <mpath href="#movingPath" />
+                <path
+                  id="movingPath"
+                  d="M 28,0 H 272 A 28,28 0 0 1 300,28 A 28,28 0 0 1 272,56 H 28 A 28,28 0 0 1 0,28 A 28,28 0 0 1 28,0 Z"
+                />
+              </animateMotion>
+            </circle>
           </svg>
         </div>
 
