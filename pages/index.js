@@ -24,6 +24,11 @@ export default function AnimatedHero() {
           background-color: #0D0D0D;
         }
 
+        .orbiter-dot {
+          r: 4;
+          fill: #A2B7FF;
+          filter: drop-shadow(0 0 6px #A2B7FF) drop-shadow(0 0 12px #A2B7FF99);
+        }
         .pill-wrapper {
           position: relative;
           width: 12ch;
@@ -54,11 +59,6 @@ export default function AnimatedHero() {
           z-index: 2;
         }
 
-        .orbiter-dot {
-          r: 4;
-          fill: #A2B7FF;
-          filter: drop-shadow(0 0 6px #A2B7FF) drop-shadow(0 0 12px #A2B7FF99);
-        }
 
         .pill-svg {
           position: absolute;
