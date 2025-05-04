@@ -5,6 +5,7 @@ export default function AnimatedHero() {
   const titles = useMemo(() => ["PRODUCT", "UX / UI", "EXPERIENCE", "INDUSTRIAL"], []);
   const [index, setIndex] = useState(0);
   const dotRef = useRef();
+  const trailRef = useRef([]);
   const pathRef = useRef();
 
   useEffect(() => {
@@ -14,17 +15,33 @@ export default function AnimatedHero() {
     return () => clearInterval(interval);
   }, [titles.length]);
 
-  // Animate dot along SVG path
   useEffect(() => {
     let progress = 0;
-    const speed = 0.002; // control speed
-    const dot = dotRef.current;
+    const speed = 0.002;
     const path = pathRef.current;
+    const dot = dotRef.current;
     const length = path.getTotalLength();
+    const trailPoints = [];
 
     const animate = () => {
       const point = path.getPointAtLength(progress * length);
       dot.style.transform = `translate(${point.x}px, ${point.y}px)`;
+
+      // Create sparkle trail
+      const trail = document.createElement("div");
+      trail.className = "sparkle";
+      trail.style.transform = `translate(${point.x}px, ${point.y}px)`;
+      trail.style.opacity = "0.8";
+      dot.parentElement.appendChild(trail);
+      trailPoints.push(trail);
+
+      setTimeout(() => {
+        trail.style.opacity = "0";
+        setTimeout(() => {
+          trail.remove();
+        }, 500);
+      }, 200);
+
       progress = (progress + speed) % 1;
       requestAnimationFrame(animate);
     };
@@ -35,7 +52,6 @@ export default function AnimatedHero() {
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=General+Sans:wght@400;700&display=swap');
-
         body {
           margin: 0;
           font-family: 'General Sans', sans-serif;
@@ -83,15 +99,29 @@ export default function AnimatedHero() {
 
         .moving-dot {
           position: absolute;
-          width: 6px;
-          height: 6px;
+          width: 8px;
+          height: 8px;
           border-radius: 50%;
           background: #a2b7ff;
           box-shadow:
-            0 0 4px #a2b7ff,
-            0 0 8px #a2b7ff66,
-            0 0 12px #a2b7ff44;
-          z-index: 3;
+            0 0 8px #a2b7ff,
+            0 0 16px #a2b7ff88,
+            0 0 20px #a2b7ff44;
+          z-index: 5;
+        }
+
+        .sparkle {
+          position: absolute;
+          width: 6px;
+          height: 6px;
+          background: #d4d8ed;
+          border-radius: 50%;
+          pointer-events: none;
+          box-shadow:
+            0 0 6px #d4d8ed,
+            0 0 10px #d4d8ed66;
+          transition: opacity 0.4s ease-out;
+          z-index: 4;
         }
       `}</style>
 
@@ -130,7 +160,7 @@ export default function AnimatedHero() {
             </motion.span>
           </AnimatePresence>
 
-          {/* SVG Path matching pill shape */}
+          {/* SVG Path for border reference */}
           <svg className="pill-svg" viewBox="0 0 300 56" preserveAspectRatio="none">
             <path
               ref={pathRef}
@@ -148,7 +178,7 @@ export default function AnimatedHero() {
             />
           </svg>
 
-          {/* Glowing Dot */}
+          {/* Moving Dot */}
           <div ref={dotRef} className="moving-dot" />
         </div>
 
