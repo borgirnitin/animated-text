@@ -4,34 +4,22 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function AnimatedHero() {
   const titles = useMemo(() => ["PRODUCT", "UX / UI", "EXPERIENCE", "INDUSTRIAL"], []);
   const [index, setIndex] = useState(0);
-  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const titleInterval = setInterval(() => {
+    const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % titles.length);
     }, 2000);
-    return () => clearInterval(titleInterval);
+    return () => clearInterval(interval);
   }, [titles.length]);
-
-  // Animate trail dot along border
-  useEffect(() => {
-    let frame = 0;
-    const animate = () => {
-      setProgress((prev) => (prev + 1) % 1000);
-      frame = requestAnimationFrame(animate);
-    };
-    frame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(frame);
-  }, []);
-
-  const dashOffset = 1000 - progress;
 
   return (
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=General+Sans:wght@400;700&display=swap');
 
-        * { box-sizing: border-box; }
+        * {
+          box-sizing: border-box;
+        }
         body {
           margin: 0;
           font-family: 'General Sans', sans-serif;
@@ -42,10 +30,8 @@ export default function AnimatedHero() {
           position: relative;
           width: 13ch;
           height: 3.5rem;
+          padding: 0 1.25rem;
           border-radius: 9999px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
           background: rgba(255, 255, 255, 0.04);
           border: 1px solid rgba(255, 255, 255, 0.08);
           backdrop-filter: blur(8px);
@@ -53,6 +39,10 @@ export default function AnimatedHero() {
           box-shadow:
             inset 0 1px 1px rgba(255, 255, 255, 0.08),
             0 0 8px rgba(255, 255, 255, 0.06);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          overflow: visible;
         }
 
         .animated-text {
@@ -70,26 +60,34 @@ export default function AnimatedHero() {
           position: absolute;
           top: 0;
           left: 0;
-          width: 100%;
-          height: 100%;
-          z-index: 3;
+          width: 300px;
+          height: 56px;
+          z-index: 5;
           overflow: visible;
           pointer-events: none;
         }
 
         .trail-path {
-          stroke: #a2b7ff88;
-          stroke-width: 2;
+          stroke: #a2b7ff44;
+          stroke-width: 1;
           stroke-linecap: round;
-          stroke-dasharray: 1000;
+          stroke-dasharray: 24;
+          stroke-dashoffset: 0;
           fill: none;
-          filter: drop-shadow(0 0 4px #a2b7ffcc);
+          animation: dashMove 3s linear infinite;
+          filter: drop-shadow(0 0 6px #a2b7ff55);
         }
 
-        .glow-dot {
-          r: 4;
+        @keyframes dashMove {
+          to {
+            stroke-dashoffset: -100;
+          }
+        }
+
+        .dot {
+          r: 3;
           fill: #a2b7ff;
-          filter: drop-shadow(0 0 6px #a2b7ff88);
+          filter: drop-shadow(0 0 6px #a2b7ff99);
         }
       `}</style>
 
@@ -98,6 +96,7 @@ export default function AnimatedHero() {
         justifyContent: "center",
         alignItems: "center",
         height: "100vh",
+        width: "100%",
         padding: "2rem",
         fontFamily: "'General Sans', sans-serif",
         fontWeight: 700,
@@ -127,28 +126,30 @@ export default function AnimatedHero() {
             </motion.span>
           </AnimatePresence>
 
-          <svg className="border-svg" viewBox="0 0 300 56" preserveAspectRatio="none">
+          {/* SVG border animation */}
+          <svg className="border-svg" viewBox="0 0 300 56">
+            {/* Trail */}
             <path
-              d="M 28,0 H 272 A 28,28 0 0 1 300,28 A 28,28 0 0 1 272,56 H 28 A 28,28 0 0 1 0,28 A 28,28 0 0 1 28,0 Z"
               className="trail-path"
-              strokeDashoffset={dashOffset}
+              d="M 28,0 H 272 A 28,28 0 0 1 300,28 A 28,28 0 0 1 272,56 H 28 A 28,28 0 0 1 0,28 A 28,28 0 0 1 28,0 Z"
             />
-            <circle
-              className="glow-dot"
-              r="3"
-            >
+
+            {/* Moving Dot */}
+            <circle className="dot">
               <animateMotion
-                dur="4s"
+                dur="3s"
                 repeatCount="indefinite"
                 rotate="auto"
               >
-                <mpath href="#movingPath" />
-                <path
-                  id="movingPath"
-                  d="M 28,0 H 272 A 28,28 0 0 1 300,28 A 28,28 0 0 1 272,56 H 28 A 28,28 0 0 1 0,28 A 28,28 0 0 1 28,0 Z"
-                />
+                <mpath xlinkHref="#path" />
               </animateMotion>
             </circle>
+
+            <path
+              id="path"
+              d="M 28,0 H 272 A 28,28 0 0 1 300,28 A 28,28 0 0 1 272,56 H 28 A 28,28 0 0 1 0,28 A 28,28 0 0 1 28,0 Z"
+              fill="none"
+            />
           </svg>
         </div>
 
