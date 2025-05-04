@@ -43,7 +43,7 @@ export default function AnimatedHero() {
           display: flex;
           justify-content: center;
           align-items: center;
-          overflow: hidden;
+          overflow: visible;
         }
 
         .animated-text {
@@ -63,25 +63,39 @@ export default function AnimatedHero() {
           left: 0;
           width: 100%;
           height: 100%;
-          z-index: 3; /* Front layer */
-          pointer-events: none;
+          overflow: visible;
+          z-index: 3;
         }
 
-        .moving-stroke {
-          stroke: rgba(162,183,255,0.3);
-          stroke-width: 3;
+        .moving-dot {
+          fill: #A2B7FF;
+          filter: drop-shadow(0 0 6px #a2b7ff88);
+        }
+
+        .border-path {
+          stroke: transparent;
           fill: none;
-          stroke-linecap: round;
-          stroke-linejoin: round;
-          stroke-dasharray: 60 260;
-          animation: draw 4s linear infinite;
-          filter: drop-shadow(0 0 8px #A2B7FFaa);
         }
 
-        @keyframes draw {
-          to {
-            stroke-dashoffset: -320;
+        @keyframes moveAlong {
+          0% {
+            offset-distance: 0%;
           }
+          100% {
+            offset-distance: 100%;
+          }
+        }
+
+        .dot-on-path {
+          offset-path: path("M 28,0 H 272 A 28,28 0 0 1 300,28 A 28,28 0 0 1 272,56 H 28 A 28,28 0 0 1 0,28 A 28,28 0 0 1 28,0 Z");
+          offset-rotate: 0deg;
+          animation: moveAlong 4s linear infinite;
+          position: absolute;
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: #a2b7ff;
+          box-shadow: 0 0 12px #a2b7ff88;
         }
       `}</style>
 
@@ -102,6 +116,7 @@ export default function AnimatedHero() {
         <span>Hi, I'm Nitin 💫 I am</span>
 
         <div className="pill-wrapper">
+          {/* Text Animation */}
           <AnimatePresence mode="wait">
             <motion.span
               key={titles[index]}
@@ -120,24 +135,23 @@ export default function AnimatedHero() {
             </motion.span>
           </AnimatePresence>
 
-          {/* Trail stroke animation */}
-          <svg className="pill-svg" viewBox="0 0 300 56" preserveAspectRatio="none">
-            <defs>
-              <path
-                id="trailPath"
-                d="
-                  M 28,1
-                  H 272
-                  A 27,27 0 0 1 299,28
-                  A 27,27 0 0 1 272,55
-                  H 28
-                  A 27,27 0 0 1 1,28
-                  A 27,27 0 0 1 28,1 Z
-                "
-              />
-            </defs>
+          {/* Moving Glow Dot */}
+          <div className="dot-on-path" />
 
-            <use href="#trailPath" className="moving-stroke" />
+          {/* Hidden SVG Path (for border reference) */}
+          <svg className="pill-svg" viewBox="0 0 300 56" preserveAspectRatio="none">
+            <path
+              className="border-path"
+              d="
+                M 28,0
+                H 272
+                A 28,28 0 0 1 300,28
+                A 28,28 0 0 1 272,56
+                H 28
+                A 28,28 0 0 1 0,28
+                A 28,28 0 0 1 28,0 Z
+              "
+            />
           </svg>
         </div>
 
