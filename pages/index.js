@@ -63,21 +63,25 @@ export default function AnimatedHero() {
           left: 0;
           width: 100%;
           height: 100%;
-          z-index: 2; /* Front */
+          z-index: 3; /* Front layer */
           pointer-events: none;
         }
 
-        .glow-dot {
-          r: 2;
-          fill: #A2B7FF;
-          filter: drop-shadow(0 0 6px #A2B7FF) drop-shadow(0 0 12px #A2B7FF88);
+        .moving-stroke {
+          stroke: rgba(162,183,255,0.3);
+          stroke-width: 3;
+          fill: none;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+          stroke-dasharray: 60 260;
+          animation: draw 4s linear infinite;
+          filter: drop-shadow(0 0 8px #A2B7FFaa);
         }
 
-        .trail {
-          r: 1.5;
-          fill: #A2B7FF;
-          opacity: 0.3;
-          filter: blur(1px);
+        @keyframes draw {
+          to {
+            stroke-dashoffset: -320;
+          }
         }
       `}</style>
 
@@ -116,7 +120,7 @@ export default function AnimatedHero() {
             </motion.span>
           </AnimatePresence>
 
-          {/* Animated SVG Trail + Dot */}
+          {/* Trail stroke animation */}
           <svg className="pill-svg" viewBox="0 0 300 56" preserveAspectRatio="none">
             <defs>
               <path
@@ -133,28 +137,7 @@ export default function AnimatedHero() {
               />
             </defs>
 
-            {/* Trailing clones */}
-            {[0.02, 0.04, 0.06, 0.08].map((offset, i) => (
-              <circle className="trail" key={i}>
-                <animateMotion
-                  dur="4s"
-                  repeatCount="indefinite"
-                  keyPoints="0;1"
-                  keyTimes="0;1"
-                  calcMode="linear"
-                  begin={`${i * 0.1}s`}
-                >
-                  <mpath href="#trailPath" />
-                </animateMotion>
-              </circle>
-            ))}
-
-            {/* Lead glow dot */}
-            <circle className="glow-dot">
-              <animateMotion dur="4s" repeatCount="indefinite" rotate="auto">
-                <mpath href="#trailPath" />
-              </animateMotion>
-            </circle>
+            <use href="#trailPath" className="moving-stroke" />
           </svg>
         </div>
 
