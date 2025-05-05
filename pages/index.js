@@ -24,7 +24,7 @@ export default function AnimatedHero() {
         body {
           margin: 0;
           font-family: 'General Sans', sans-serif;
-          background-color: #0D0D0D;
+          //background-color: #0D0D0D;
         }
 
         .pill-wrapper {
