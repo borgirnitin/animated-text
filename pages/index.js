@@ -57,39 +57,39 @@ export default function AnimatedHero() {
           z-index: 2;
         }
 
-        .trail-dot {
-          position: absolute;
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: #a2b7ff;
-          box-shadow:
-            0 0 6px rgba(162, 183, 255, 0.8),
-            0 0 12px rgba(162, 183, 255, 0.4),
-            0 0 24px rgba(162, 183, 255, 0.2);
-          animation: spin 3s linear infinite;
-        }
+        // .trail-dot {
+        //   position: absolute;
+        //   width: 8px;
+        //   height: 8px;
+        //   border-radius: 50%;
+        //   background: #a2b7ff;
+        //   box-shadow:
+        //     0 0 6px rgba(162, 183, 255, 0.8),
+        //     0 0 12px rgba(162, 183, 255, 0.4),
+        //     0 0 24px rgba(162, 183, 255, 0.2);
+        //   animation: spin 3s linear infinite;
+        // }
 
-        .pill-path {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          pointer-events: none;
-          overflow: visible;
-        }
+        // .pill-path {
+        //   position: absolute;
+        //   top: 0;
+        //   left: 0;
+        //   width: 100%;
+        //   height: 100%;
+        //   pointer-events: none;
+        //   overflow: visible;
+        // }
 
-        .pill-path svg {
-          width: 100%;
-          height: 100%;
-        }
+        // .pill-path svg {
+        //   width: 100%;
+        //   height: 100%;
+        // }
 
-        .trail-dot {
-          offset-path: path("M 28,0 H 272 A 28,28 0 0 1 300,28 A 28,28 0 0 1 272,56 H 28 A 28,28 0 0 1 0,28 A 28,28 0 0 1 28,0 Z");
-          offset-rotate: 0deg;
-          animation: moveTrail 5s linear infinite;
-        }
+        // .trail-dot {
+        //   offset-path: path("M 28,0 H 272 A 28,28 0 0 1 300,28 A 28,28 0 0 1 272,56 H 28 A 28,28 0 0 1 0,28 A 28,28 0 0 1 28,0 Z");
+        //   offset-rotate: 0deg;
+        //   animation: moveTrail 5s linear infinite;
+        // }
 
         @keyframes moveTrail {
           0% {
