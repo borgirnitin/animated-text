@@ -122,7 +122,7 @@ export default function AnimatedHero() {
           flexWrap: "wrap",
         }}
       >
-        <span>Hi, I'm Nitin 💫</span>
+        <span>Hi, I'm N I T I N 💫</span>
 
         <div className="pill-wrapper">
           {/* Text animation */}
